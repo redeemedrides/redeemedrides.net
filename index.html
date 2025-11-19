@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redeemed Rides - Premium Mobile E-Bike Service</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-navy: #0a2e4d;
+            --accent-blue: #1e5a7d;
+            --light-blue: #3a7ca5;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --text-dark: #1a1a1a;
+            --text-light: #6c757d;
+            --success: #10b981;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Ultra-Modern Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 3rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-circle {
+            width: 55px;
+            height: 55px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .logo-circle img {
+            width: 130%;
+            height: 130%;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text .brand-name {
+            color: var(--primary-navy);
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            line-height: 1;
+        }
+
+        .logo-text .brand-tagline {
+            color: var(--text-light);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--light-bg);
+            padding: 0.5rem;
+            border-radius: 50px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+        }
+
+        .nav-tab {
+            padding: 0.75rem 2rem;
+            border: none;
+            background: transparent;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .nav-tab:hover {
+            color: var(--primary-navy);
+            transform: translateY(-1px);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, var(--primary-navy), var(--accent-blue));
+            color: white;
+            box-shadow: 0 4px 12px rgba(10, 46, 77, 0.3);
+        }
+
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--primary-navy);
+            border-radius: 50%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 8px;
+            background: var(--light-bg);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover {
+            background: var(--primary-navy);
+        }
+
+        .mobile-menu-btn span {
+            width: 28px;
+            height: 3px;
+            background: var(--primary-navy);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover span {
+            background: white;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(10, 46, 77, 0.97);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-menu-overlay.active {
+            display: flex;
+            opacity: 1;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .mobile-nav-tab {
+            padding: 1.5rem 3rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .mobile-nav-tab:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .mobile-nav-tab.active {
+            background: white;
+            color: var(--primary-navy);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0a2e4d 0%, #1e5a7d 50%, #3a7ca5 100%);
+            color: white;
+            padding: 180px 3rem 120px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 85px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.5;
+        }
+
+        .hero-logo {
+            position: absolute;
+            top: 40px;
+            right: 60px;
+            width: 320px;
+            height: 320px;
+            opacity: 0.12;
+            animation: float 6s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .hero-logo svg {
+            width: 100%;
+            height: 100%;
+            filter: brightness(0) invert(1);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 3rem;
+            opacity: 0.95;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .cta-primary {
+            padding: 1.2rem 3rem;
+            background: white;
+            color: var(--primary-navy);
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+        }
+
+        .cta-secondary {
+            padding: 1.2rem 3rem;
+            background: transparent;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: 2px solid white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cta-secondary:hover {
+            background: white;
+            color: var(--primary-navy);
+            transform: translateY(-3px);
+        }
+
+        /* Contact Cards */
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: -80px auto 0;
+            padding: 0 3rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--primary-navy), var(--accent-blue));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .contact-card h3 {
+            color: var(--primary-navy);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .contact-card p {
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .contact-card a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .contact-card a:hover {
+            color: var(--primary-navy);
+        }
+
+        /* Section Styles */
+        section {
+            display: none;
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 3rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary-navy);
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .section-header p {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Feature Cards */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: white;
+            border-radius: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-blue);
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            color: var(--primary-navy);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        /* Premium Pricing Tables */
+        .pricing-container {
+            margin-bottom: 5rem;
+        }
+
+        .pricing-header {
+            background: linear-gradient(135deg, var(--light-bg), white);
+            padding: 2rem;
+            border-radius: 20px 20px 0 0;
+            border: 2px solid rgba(0,0,0,0.05);
+            border-bottom: none;
+        }
+
+        .pricing-header h3 {
+            color: var(--primary-navy);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .pricing-table {
+            background: white;
+            border-radius: 0 0 20px 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 2px solid rgba(0,0,0,0.05);
+            border-top: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--primary-navy);
+            color: white;
+            padding: 1.5rem;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-size: 1.05rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: var(--light-bg);
+        }
+
+        .price-tag {
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+
+        .highlight-note {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            border-left: 5px solid #ffc107;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .highlight-note strong {
+            color: var(--primary-navy);
+            font-size: 1.1rem;
+        }
+
+        /* Impact Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary-navy), var(--accent-blue));
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            text-align: center;
+            color: white;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transition: all 0.5s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px) scale(1.05);
+        }
+
+        .stat-card:hover::before {
+            top: -100%;
+            right: -100%;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Story Cards */
+        .story-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 3rem;
+            border-left: 6px solid var(--accent-blue);
+            transition: all 0.3s ease;
+        }
+
+        .story-card:hover {
+            transform: translateX(10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .story-card h3 {
+            color: var(--primary-navy);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .story-card p {
+            color: var(--text-dark);
+            font-size: 1.15rem;
+            line-height: 1.9;
+            margin-bottom: 1rem;
+        }
+
+        .story-date {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        /* Mission Banner */
+        .mission-banner {
+            background: linear-gradient(135deg, var(--primary-navy), var(--accent-blue));
+            padding: 4rem 3rem;
+            border-radius: 24px;
+            color: white;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            margin: 5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-banner::before {
+            content: '❤️';
+            position: absolute;
+            font-size: 20rem;
+            opacity: 0.05;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .mission-banner h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mission-banner p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 0 auto 2rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Feedback Form */
+        .feedback-form {
+            background: white;
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-md);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--primary-navy);
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid rgba(0,0,0,0.08);
+            border-radius: 12px;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 4px rgba(30, 90, 125, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 180px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.3rem;
+            background: linear-gradient(135deg, var(--primary-navy), var(--accent-blue));
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-navy);
+            color: white;
+            padding: 4rem 3rem;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.9;
+            font-size: 1.05rem;
+            margin-bottom: 0.8rem;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        footer a:hover {
+            border-bottom-color: white;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .nav-container {
+                padding: 1rem 2rem;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .contact-cards {
+                grid-template-columns: 1fr;
+                margin-top: -60px;
+                padding: 0 2rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-tabs {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .nav-container {
+                padding: 1rem 1.5rem;
+            }
+
+            .hero {
+                padding: 150px 2rem 100px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero-logo {
+                width: 180px;
+                height: 180px;
+                right: 20px;
+                top: 30px;
+                opacity: 0.1;
+            }
+
+            .cta-group {
+                flex-direction: column;
+            }
+
+            .contact-cards {
+                padding: 0 1.5rem;
+                margin-top: -40px;
+            }
+
+            .content-section {
+                padding: 60px 1.5rem;
+            }
+
+            .section-header h2 {
+                font-size: 2.5rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="mainNav">
+        <div class="nav-container">
+            <div class="logo-container" onclick="showSection('home')">
+                <div class="logo-circle">
+                    <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Simple e-bike icon matching your logo -->
+                        <g fill="none" stroke="#003049" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Left wheel -->
+                            <circle cx="45" cy="85" r="25"/>
+                            <!-- Right wheel -->
+                            <circle cx="155" cy="85" r="25"/>
+                            <!-- Frame - main triangle -->
+                            <path d="M 45 85 L 80 35 L 120 35"/>
+                            <path d="M 120 35 L 155 85"/>
+                            <path d="M 80 35 L 100 85"/>
+                            <!-- Horizontal bar at bottom -->
+                            <line x1="45" y1="85" x2="155" y2="85"/>
+                            <!-- Seat post and seat -->
+                            <line x1="80" y1="35" x2="80" y2="25"/>
+                            <ellipse cx="80" cy="22" rx="12" ry="4" fill="#003049"/>
+                            <!-- Handlebars -->
+                            <path d="M 120 35 Q 135 28 145 25"/>
+                            <circle cx="145" cy="25" r="4" fill="#003049"/>
+                            <!-- Lightning bolt on front wheel area -->
+                            <path d="M 105 70 L 95 85 L 105 85 L 95 100" stroke="#003049" stroke-width="6" fill="none"/>
+                        </g>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <span class="brand-name">REDEEMED RIDES</span>
+                    <span class="brand-tagline">Mobile E-Bike Service</span>
+                </div>
+            </div>
+            
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="showSection('home')" data-section="home">Home</button>
+                <button class="nav-tab" onclick="showSection('pricing')" data-section="pricing">Pricing</button>
+                <button class="nav-tab" onclick="showSection('impact')" data-section="impact">Impact & Stories</button>
+                <button class="nav-tab" onclick="showSection('feedback')" data-section="feedback">Feedback</button>
+            </div>
+
+            <div class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <button class="mobile-nav-tab active" onclick="showSection('home'); toggleMobileMenu()" data-section="home">Home</button>
+        <button class="mobile-nav-tab" onclick="showSection('pricing'); toggleMobileMenu()" data-section="pricing">Pricing</button>
+        <button class="mobile-nav-tab" onclick="showSection('impact'); toggleMobileMenu()" data-section="impact">Impact & Stories</button>
+        <button class="mobile-nav-tab" onclick="showSection('feedback'); toggleMobileMenu()" data-section="feedback">Feedback</button>
+    </div>
+
+    <section id="home" class="active">
+        <div class="hero">
+            <div class="hero-logo">
+                <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Simple e-bike icon in white for watermark -->
+                    <g fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+                        <!-- Left wheel -->
+                        <circle cx="45" cy="85" r="25"/>
+                        <!-- Right wheel -->
+                        <circle cx="155" cy="85" r="25"/>
+                        <!-- Frame - main triangle -->
+                        <path d="M 45 85 L 80 35 L 120 35"/>
+                        <path d="M 120 35 L 155 85"/>
+                        <path d="M 80 35 L 100 85"/>
+                        <!-- Horizontal bar at bottom -->
+                        <line x1="45" y1="85" x2="155" y2="85"/>
+                        <!-- Seat post and seat -->
+                        <line x1="80" y1="35" x2="80" y2="25"/>
+                        <ellipse cx="80" cy="22" rx="12" ry="4" fill="#ffffff"/>
+                        <!-- Handlebars -->
+                        <path d="M 120 35 Q 135 28 145 25"/>
+                        <circle cx="145" cy="25" r="4" fill="#ffffff"/>
+                        <!-- Lightning bolt -->
+                        <path d="M 105 70 L 95 85 L 105 85 L 95 100" stroke="#ffffff" stroke-width="6" fill="none"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="hero-content">
+                <h1>Premium Mobile<br>E-Bike Service</h1>
+                <p class="subtitle">Expert repairs and maintenance delivered directly to your location</p>
+                <div class="cta-group">
+                    <button class="cta-primary" onclick="showSection('pricing')">View Services</button>
+                    <button class="cta-secondary" onclick="showSection('impact')">Our Impact</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-cards">
+            <div class="contact-card">
+                <div class="contact-icon">📞</div>
+                <h3>Contact Us</h3>
+                <p><strong>Samuel Flood</strong></p>
+                <p><a href="tel:5306132751">(530) 613-2751</a></p>
+                <p><a href="mailto:redeemedridesrepair@gmail.com">redeemedridesrepair@gmail.com</a></p>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">🕒</div>
+                <h3>Business Hours</h3>
+                <p><strong>Consultation Available</strong></p>
+                <p>Monday - Friday</p>
+                <p><strong>12:00 PM - 8:00 PM</strong></p>
+                <p style="margin-top: 1rem; font-style: italic;">Service by appointment</p>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">❤️</div>
+                <h3>Making a Difference</h3>
+                <p><strong>5% of Revenue</strong></p>
+                <p>Supports Community</p>
+                <p>Outreach Programs</p>
+                <p style="margin-top: 1rem;">Helping those in need</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="section-header">
+                <h2>Why Choose Us?</h2>
+                <p>Experience professional e-bike service with a purpose—every repair makes a difference</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🚴</span>
+                    <h3>Mobile Convenience</h3>
+                    <p>We come directly to you—no need to transport your e-bike or visit a shop</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">⚡</span>
+                    <h3>E-Bike Expertise</h3>
+                    <p>Specialized knowledge in electric bike systems, motors, and batteries</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">❤️</span>
+                    <h3>Community Impact</h3>
+                    <p>Every service contributes to helping those in need in our community</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing">
+        <div class="content-section">
+            <div class="section-header">
+                <h2>Service Pricing</h2>
+                <p>Transparent pricing for professional e-bike maintenance and repair</p>
+            </div>
+
+            <div class="highlight-note">
+                <strong>Important:</strong> All prices listed are for labor only. Parts are quoted separately and require your approval before installation.
+            </div>
+
+            <div class="pricing-container">
+                <div class="pricing-header">
+                    <h3>Essential On-Site Fees</h3>
+                    <p>Required for all mobile service appointments</p>
+                </div>
+                <div class="pricing-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Service Fee</th>
+                                <th>Investment</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Mobile Drive Fee</strong></td>
+                                <td class="price-tag">$150</td>
+                                <td>Flat-rate fee covering travel time, fuel, and vehicle operational costs</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Diagnostic & Consultation</strong></td>
+                                <td class="price-tag">$100</td>
+                                <td>Non-refundable deposit for appointment. Covers diagnosis and consultation. <strong>100% credited toward authorized repairs</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="pricing-container">
+                <div class="pricing-header">
+                    <h3>Service Packages</h3>
+                    <p>Comprehensive maintenance solutions offering exceptional value</p>
+                </div>
+                <div class="pricing-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Package</th>
+                                <th>Investment</th>
+                                <th>Includes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Basic E-Bike Tune-Up</strong></td>
+                                <td class="price-tag">$150</td>
+                                <td>Safety inspection, brake & shifting adjustments, tire optimization, drivetrain lubrication, electrical checks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Major E-Bike Tune-Up</strong></td>
+                                <td class="price-tag">$300</td>
+                                <td>All Basic services + drivetrain deep clean, component cleaning, professional wheel truing, BMS/firmware check</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Complete Overhaul</strong></td>
+                                <td class="price-tag">$550</td>
+                                <td>Full disassembly, detailed cleaning, bearing overhaul (hubs, headset, bottom bracket), cable replacement</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="pricing-container">
+                <div class="pricing-header">
+                    <h3>Wheels & Tires</h3>
+                    <p>Individual repair services</p>
+                </div>
+                <div class="pricing-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Labor Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Flat Tire Repair (Standard Wheel)</td>
+                                <td class="price-tag">$20</td>
+                            </tr>
+                            <tr>
+                                <td>Flat Tire Repair (Hub Motor Wheel)</td>
+                                <td class="price-tag">$75</td>
+                            </tr>
+                            <tr>
+                                <td>Wheel True (Minor Adjustment)</td>
+                                <td class="price-tag">$40</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="pricing-container">
+                <div class="pricing-header">
+                    <h3>Brakes</h3>
+                    <p>Brake system services</p>
+                </div>
+                <div class="pricing-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Labor Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Adjust Mechanical Brakes (per wheel)</td>
+                                <td class="price-tag">$25</td>
+                            </tr>
+                            <tr>
+                                <td>Install Brake Pads (per set)</td>
+                                <td class="price-tag">$25</td>
+                            </tr>
+                            <tr>
+                                <td>Hydraulic Brake Bleed (per brake)</td>
+                                <td class="price-tag">$60</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="pricing-container">
+                <div class="pricing-header">
+                    <h3>Drivetrain</h3>
+                    <p>Chain and gear system services</p>
+                </div>
+                <div class="pricing-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Labor Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Adjust Derailleur (Front or Rear)</td>
+                                <td class="price-tag">$30</td>
+                            </tr>
+                            <tr>
+                                <td>Install Chain</td>
+                                <td class="price-tag">$30</td>
+                            </tr>
+                            <tr>
+                                <td>Install Cassette / Freewheel</td>
+                                <td class="price-tag">$35</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="pricing-container">
+                <div class="pricing-header">
+                    <h3>E-Bike Specific & Assembly</h3>
+                    <p>Electric components and full assembly</p>
+                </div>
+                <div class="pricing-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Labor Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Install Controller</td>
+                                <td class="price-tag">$45 - $125</td>
+                            </tr>
+                            <tr>
+                                <td>Install Throttle or Display</td>
+                                <td class="price-tag">$25 - $35</td>
+                            </tr>
+                            <tr>
+                                <td>Install Hydraulic Brake Levers w/ Electric Cutoff (per side)</td>
+                                <td class="price-tag">$95 - $125</td>
+                            </tr>
+                            <tr>
+                                <td>New E-Bike Assembly from Box</td>
+                                <td class="price-tag">$150 - $200</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="impact">
+        <div class="content-section">
+            <div class="section-header">
+                <h2>Our Community Impact</h2>
+                <p>Making a real difference, one repair at a time</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">127</div>
+                    <div class="stat-label">People Helped</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$8,450</div>
+                    <div class="stat-label">Funds Raised</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5%</div>
+                    <div class="stat-label">Revenue Donated</div>
+                </div>
+            </div>
+
+            <div class="mission-banner">
+                <h3>Our Mission</h3>
+                <p>At Redeemed Rides, we believe in fixing more than bikes—we believe in transforming lives. That's why 5% of every dollar we earn goes directly toward supporting homeless individuals and those facing hardship in our community. Every repair you trust us with creates real change for someone in need.</p>
+                <button class="cta-primary" onclick="showSection('pricing')">Schedule Service</button>
+            </div>
+
+            <div class="section-header" style="margin-top: 6rem;">
+                <h2>Stories of Hope</h2>
+                <p>Real people, real transformations</p>
+            </div>
+
+            <div class="story-card">
+                <h3>Michael's Second Chance</h3>
+                <p>After years of homelessness, Michael received a refurbished e-bike through our community program. "This bike changed everything," he shares. "I can now get to my job at the warehouse 15 miles away. I'm saving money, staying healthy, and most importantly—I have my independence back. Redeemed Rides didn't just fix a bike; they helped rebuild my life."</p>
+                <div class="story-date">October 2024</div>
+            </div>
+
+            <div class="story-card">
+                <h3>Sarah's Journey to Work</h3>
+                <p>Sarah, a single mother working two jobs, couldn't afford car repairs. Through our assistance program funded by customer contributions, she received an e-bike that transformed her daily commute. "I was spending hours on buses between jobs. Now I get there in half the time, spend more time with my kids, and I'm even healthier. This community saw me when I felt invisible."</p>
+                <div class="story-date">September 2024</div>
+            </div>
+
+            <div class="story-card">
+                <h3>James Finds Purpose</h3>
+                <p>James, a veteran struggling with PTSD and housing insecurity, found more than transportation through Redeemed Rides. "The bike gave me mobility, but the dignity of having reliable transportation gave me hope. I started a small recycling route, earned enough to get into transitional housing, and now I'm helping others. One bike, one chance—that's all it took to turn my life around."</p>
+                <div class="story-date">August 2024</div>
+            </div>
+
+            <div class="mission-banner">
+                <h3>Every Service Makes a Difference</h3>
+                <p>When you choose Redeemed Rides for your e-bike service, you're not just maintaining your bike—you're investing in someone's future. Thank you for being part of our mission to restore hope and rebuild lives.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="feedback">
+        <div class="content-section">
+            <div class="section-header">
+                <h2>We Value Your Feedback</h2>
+                <p>Your insights help us improve and serve the community better</p>
+            </div>
+
+            <div class="feedback-form">
+                <form onsubmit="handleFeedback(event)">
+                    <div class="form-group">
+                        <label for="name">Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="Your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number (Optional)</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(123) 456-7890">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="feedback-type">Feedback Type *</label>
+                        <select id="feedback-type" name="feedback-type" required>
+                            <option value="">Select a category</option>
+                            <option value="general">General Feedback</option>
+                            <option value="service">Service Experience</option>
+                            <option value="suggestion">Suggestion for Improvement</option>
+                            <option value="complaint">Concern or Issue</option>
+                            <option value="praise">Compliment</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Your Message *</label>
+                        <textarea id="message" name="message" required placeholder="Share your thoughts, experiences, or suggestions..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Feedback</button>
+
+                    <div id="feedback-message" style="margin-top: 1.5rem; padding: 1.5rem; border-radius: 12px; display: none;"></div>
+                </form>
+            </div>
+
+            <div class="mission-banner" style="margin-top: 4rem;">
+                <h3>Other Ways to Reach Us</h3>
+                <p style="margin-bottom: 2rem;">We're always here to listen and improve</p>
+                <p style="font-size: 1.2rem;"><strong>Call:</strong> <a href="tel:5306132751" style="color: white; border-bottom: 2px solid white;">(530) 613-2751</a></p>
+                <p style="font-size: 1.2rem; margin-top: 1rem;"><strong>Email:</strong> <a href="mailto:redeemedridesrepair@gmail.com" style="color: white; border-bottom: 2px solid white;">redeemedridesrepair@gmail.com</a></p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <p style="font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem;">REDEEMED RIDES</p>
+            <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">Premium Mobile E-Bike Service</p>
+            <p>Professional service with purpose • 5% of revenue supports community outreach</p>
+            <div style="margin: 2rem 0; height: 1px; background: rgba(255,255,255,0.2);"></div>
+            <p><strong>Samuel Flood</strong></p>
+            <p><a href="tel:5306132751">(530) 613-2751</a> • <a href="mailto:redeemedridesrepair@gmail.com">redeemedridesrepair@gmail.com</a></p>
+            <p style="margin-top: 2rem; opacity: 0.7;">© 2024 Redeemed Rides. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation scroll effect
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Section navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update desktop nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('data-section') === sectionId) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            // Update mobile nav tabs
+            document.querySelectorAll('.mobile-nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.getAttribute('data-section') === sectionId) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            // Scroll to top smoothly
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            
+            mobileMenu.classList.toggle('active');
+            menuBtn.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            if (mobileMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Handle feedback form
+        function handleFeedback(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const messageDiv = document.getElementById('feedback-message');
+            
+            // Show success message
+            messageDiv.style.display = 'block';
+            messageDiv.style.background = 'linear-gradient(135deg, #d4edda, #c3e6cb)';
+            messageDiv.style.color = '#155724';
+            messageDiv.style.border = '2px solid #28a745';
+            messageDiv.innerHTML = '<strong style="font-size: 1.2rem;">✓ Thank you for your feedback!</strong><br><br>We appreciate you taking the time to share your thoughts. We\'ll review your message carefully and respond if needed.';
+            
+            // Reset form
+            form.reset();
+            
+            // Scroll to message
+            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Hide message after 7 seconds
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 7000);
+        }
+
+        // Close mobile menu on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const mobileMenu = document.getElementById('mobileMenu');
+                const menuBtn = document.querySelector('.mobile-menu-btn');
+                if (mobileMenu.classList.contains('active')) {
+                    mobileMenu.classList.remove('active');
+                    menuBtn.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+
+        // Smooth scroll behavior for all internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+            });
+        });
+
+        // Initialize page
+        window.addEventListener('load', function() {
+            showSection('home');
+        });
+    </script>
+</body>
+</html>
