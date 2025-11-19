@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback - Redeemed Rides</title>
+  <meta name="description" content="Get in touch with Redeemed Rides for e-bike service or to share your feedback.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .form-group {
+      margin-bottom: 24px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+    
+    input, textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: inherit;
+      transition: border-color 0.3s ease;
+    }
+    
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #0f766e;
+    }
+    
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+    
+    .submit-btn {
+      background: #0f766e;
+      color: white;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .submit-btn:hover {
+      background: #14b8a6;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(15, 118, 110, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo-section">
+        <img src="images/logo.png" alt="Redeemed Rides Logo" class="logo-img">
+        <div class="logo-text">
+          <h1>Redeemed Rides</h1>
+          <p>Mobile E-Bike Mechanic</p>
+        </div>
+      </a>
+      
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="prices.html">Prices</a>
+        <a href="stories.html">Stories & Impact</a>
+        <a href="feedback.html">Feedback</a>
+      </nav>
+      
+      <button class="mobile-menu-btn">☰</button>
+    </div>
+    
+    <div class="mobile-nav">
+      <a href="index.html">Home</a>
+      <a href="prices.html">Prices</a>
+      <a href="stories.html">Stories & Impact</a>
+      <a href="feedback.html">Feedback</a>
+    </div>
+  </header>
+
+  <main>
+    <section style="padding-top: 120px;">
+      <div class="container">
+        <h2>Feedback</h2>
+        <p style="text-align: center; font-size: 18px; margin-bottom: 48px; color: #64748b; max-width: 800px; margin-left: auto; margin-right: auto;">We'd love to hear from you! Share your experience, ask a question, or let us know how we can serve you better.</p>
+        
+        <div style="max-width: 700px; margin: 0 auto;">
+          <!-- Feedback Form -->
+          <div class="card" style="margin-bottom: 48px;">
+            <h3 style="text-align: center; margin-bottom: 24px;">Send Us a Message</h3>
+            <form class="feedback-form">
+              <div class="form-group">
+                <label for="name">Name *</label>
+                <input type="text" id="name" name="name" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone">
+              </div>
+              
+              <div class="form-group">
+                <label for="message">Message *</label>
+                <textarea id="message" name="message" required></textarea>
+              </div>
+              
+              <button type="submit" class="submit-btn">Send Feedback</button>
+            </form>
+          </div>
+          
+          <!-- Contact Information -->
+          <div class="card">
+            <h3 style="text-align: center; margin-bottom: 24px;">Or Contact Us Directly</h3>
+            
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding: 16px; background: #f8fafc; border-radius: 8px;">
+              <div class="card-icon" style="margin: 0; width: 48px; height: 48px; font-size: 24px;">👤</div>
+              <div>
+                <p style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">Owner & Mechanic</p>
+                <p style="color: #0f766e; font-weight: 700; font-size: 18px;">Samuel Flood</p>
+              </div>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding: 16px; background: #f8fafc; border-radius: 8px;">
+              <div class="card-icon" style="margin: 0; width: 48px; height: 48px; font-size: 24px;">✉️</div>
+              <div>
+                <p style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">Email</p>
+                <a href="mailto:redeemedridesrepair@gmail.com" style="color: #0f766e; text-decoration: none; font-weight: 600;">redeemedridesrepair@gmail.com</a>
+              </div>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding: 16px; background: #f8fafc; border-radius: 8px;">
+              <div class="card-icon" style="margin: 0; width: 48px; height: 48px; font-size: 24px;">📞</div>
+              <div>
+                <p style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">Phone</p>
+                <a href="tel:+15306132751" style="color: #0f766e; text-decoration: none; font-weight: 700; font-size: 20px;">(530) 613-2751</a>
+              </div>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: #f8fafc; border-radius: 8px;">
+              <div class="card-icon" style="margin: 0; width: 48px; height: 48px; font-size: 24px;">🕐</div>
+              <div>
+                <p style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">Availability</p>
+                <p style="color: #475569; margin-bottom: 4px;"><strong>Call or Email to Schedule Service</strong></p>
+                <p style="color: #64748b; font-size: 14px;">Monday - Friday: 12:00 PM - 8:00 PM</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3>Redeemed Rides - Mobile E-Bike Mechanic</h3>
+          <p>Professional mobile e-bike repair and maintenance that comes to you. Supporting our community, one ride at a time. 5% of all sales go to help homeless individuals and people in need.</p>
+        </div>
+        
+        <div>
+          <h3>Quick Links</h3>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="prices.html">Pricing</a>
+            <a href="stories.html">Stories & Impact</a>
+            <a href="feedback.html">Feedback</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 Redeemed Rides - Mobile E-Bike Mechanic. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
